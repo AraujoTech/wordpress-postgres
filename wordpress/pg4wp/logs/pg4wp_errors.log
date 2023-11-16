@@ -1,0 +1,24 @@
+[1700096593.6805] Error running :
+SELECT option_name, option_value FROM wp_options WHERE autoload = 'yes'
+---- converted to ----
+SELECT option_name, option_value FROM wp_options WHERE autoload = 'yes'
+----> ERROR:  relation "wp_options" does not exist
+LINE 1: SELECT option_name, option_value FROM wp_options WHERE autol...
+                                              ^
+---------------------
+[1700096593.6993] Error running :
+SELECT option_name, option_value FROM wp_options
+---- converted to ----
+SELECT option_name, option_value FROM wp_options
+----> ERROR:  relation "wp_options" does not exist
+LINE 1: SELECT option_name, option_value FROM wp_options
+                                              ^
+---------------------
+[1700096593.7169] Error running :
+SELECT option_value FROM wp_options WHERE option_name = 'siteurl'
+---- converted to ----
+SELECT option_value FROM wp_options WHERE option_name = 'siteurl'
+----> ERROR:  relation "wp_options" does not exist
+LINE 1: SELECT option_value FROM wp_options WHERE option_name = 'sit...
+                                 ^
+---------------------

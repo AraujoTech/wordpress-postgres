@@ -1,0 +1,62 @@
+version: '3.1'
+services:
+#   db_mysql:
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_ROOT_USER: root
+#       MYSQL_USER: wordpress
+#       MYSQL_PASSWORD: wordpress
+#       MYSQL_DATABASE: wordpress
+#     container_name: wordpress_database
+#     volumes:
+#       - './db_mysql_data:/var/lib/mysql'
+#       - ./schema:/docker-entrypoint-initdb.d
+#     image: mysql:5.7
+#     ports:
+#       - "3306:3306"
+#     expose:
+#       - "3306"
+#     networks:
+#       - pgwpnetwork
+
+  db_postgres:
+    # We use a postgres image which version supported by PG4WP. For more detail check  https://github.com/PostgreSQL-For-Wordpress/postgresql-for-wordpress
+    image: postgres:14.2
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: wordpress
+      POSTGRES_PASSWORD: wordpress
+      POSTGRES_DB: wordpress
+    ports:
+      - 5432:5432
+    networks:
+      - pgwpnetwork
+  
+  wordpress:
+    build: 
+      context: .   
+    ports:
+      - 8080:80
+    restart: always
+    links:
+      - db_postgres
+    environment:
+      WORDPRESS_DB_HOST: db_postgres
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - ./wordpress:/var/www/html
+    networks:
+      - pgwpnetwork
+
+volumes:
+  db_data:
+  # db_mysql_data:
+  wordpress:
+networks:
+  pgwpnetwork:
+    driver: bridge

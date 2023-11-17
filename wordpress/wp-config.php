@@ -39,6 +39,18 @@ if (!function_exists('getenv_docker')) {
 	}
 }
 
+// adjust Redis host and port if necessary 
+define( 'WP_REDIS_HOST', getenv_docker('WORDPRESS_REDIS_HOST','127.0.0.1') );
+define( 'WP_REDIS_PORT', getenv_docker('WORDPRESS_REDIS_PORT', 6379) );
+
+// change the prefix and database for each site to avoid cache data collisions
+define( 'WP_REDIS_PREFIX', getenv_docker('WORDPRESS_REDIS_PREFIX','wp_redis') );
+define( 'WP_REDIS_DATABASE' , getenv_docker('WORDPRESS_REDIS_DATABASE',0) ); // 0-15
+
+// reasonable connection and read+write timeouts
+define( 'WP_REDIS_TIMEOUT', getenv_docker('WORDPRESS_REDIS_PREFIX',1) );
+define( 'WP_REDIS_READ_TIMEOUT', getenv_docker('WORDPRESS_REDIS_TIMEOUT',1));
+
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );

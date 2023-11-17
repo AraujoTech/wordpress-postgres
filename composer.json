@@ -1,0 +1,37 @@
+{
+  "name": "araujotech/wordpress-postgres-redis",
+  "description": "Public Docker image to deploy Wordpress blog using PostgreSQL and Redis",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*"
+    ]
+
+    }
+  ],
+  "require": {
+    "wpackagist-plugin/redis-cache":"*"
+  },
+
+  "extra": {
+    "installer-paths": {
+        "wp-content/mu-plugins/{$name}/": [
+            "wpackagist-plugin/redis-cache"
+        ],
+        "wp-content/plugins/{$name}/": [
+            "type:wordpress-plugin"
+        ]
+    }
+},
+
+  "authors": [
+    {
+      "name": "Rafael Araújo",
+      "email": "mendonca.rafael.araujo@gmail.com",
+      "role": "Developer"
+    }
+  ]
+}

@@ -23,20 +23,36 @@ services:
     restart: always
     links:
       - db_postgres
+      - cache
     environment:
       WORDPRESS_DB_HOST: db_postgres
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: 1
+      WORDPRESS_REDIS_HOST: cache
+      WORDPRESS_REDIS_PORT: 6379
+      WORDPRESS_REDIS_DATABASE: 1
     volumes:
       - ./wordpress:/var/www/html
     networks:
       - pgwpnetwork
-
+  
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - ./cache:/data
+    networks:
+      - pgwpnetwork
+  
 volumes:
   db_data:
   wordpress:
+  cache:
 networks:
   pgwpnetwork:
     driver: bridge
